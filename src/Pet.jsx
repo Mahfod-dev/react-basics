@@ -2,7 +2,7 @@ import React from 'react'
 
 const Pet = (props) => {
   return (
-    <>
+    <div>
     <h1>
         {props.name}
     </h1>
@@ -11,7 +11,7 @@ const Pet = (props) => {
         {props.breed}
     </h3>
 
-    </>
+    </div>
   )
 }
 export default Pet
