@@ -14,12 +14,24 @@ const SearchParams = () => {
   const [pets,setPets] = useState([])
 
 
-  useEffect(()=>{
-    fetch(`http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`).then(res=>res.json()).then(json=>setPets(json.pets))
-  },[animal])
+useEffect(()=>{
+	requestPets()
+},[])
 
 
+const requestPets = async () => {
+	const res = await fetch(
+		`http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
+	);
+	const json = await res.json();
+	setPets(json.pets);
+};
 
+
+const onSubmit = (e)=>{
+	  e.preventDefault()
+	requestPets()
+}
 
   const onChange = (e)=>{
     setLocation(e.target.value)
@@ -27,7 +39,7 @@ const SearchParams = () => {
 
   return (
 		<div className='search-params'>
-			<form>
+			<form onSubmit={onSubmit}>
 				<label htmlFor='location'>Location</label>
 				<input
 					type='text'
