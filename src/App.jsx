@@ -1,6 +1,14 @@
 import React from 'react'
 import {createRoot} from 'react-dom/client';
 import SearchParams from './SearchParams';
+import {
+  createBrowserRouter,
+  RouterProvider
+} from 'react-router-dom'
+import ErrorPage from './error-page';
+import Details from './Details';
+
+
 
 
 
@@ -15,6 +23,22 @@ const App = () => {
   )
 }
 
-const container = document.getElementById("root");
-const root = createRoot(container);
-root.render(<App/>);
+
+
+const router = createBrowserRouter([{
+	path: '/',
+	element: <App/>,
+  errorElement:<ErrorPage/>
+},{
+  path:'details/:detailid',
+  element:<Details/>,
+  errorElement:<ErrorPage/>
+
+}]);
+
+
+createRoot(document.getElementById("root")).render(
+
+    <RouterProvider router={router} />
+
+);

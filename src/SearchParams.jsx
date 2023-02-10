@@ -1,5 +1,6 @@
-import React,{ useEffect,useState } from "react"
-import Pet from './Pet'
+import React,{ useEffect, useState } from "react"
+import useBreedList from './hooks/useBreedList'
+import Results from "./Results";
 
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
@@ -9,17 +10,19 @@ const SearchParams = () => {
   const [location, setLocation] = useState("");
   const [animal, setAnimal] = useState("");
   const [breed, setBreed] = useState("");
-  const breeds = []
+
 
   const [pets,setPets] = useState([])
 
 
-useEffect(()=>{
+  const [breeds] = useBreedList(animal)
+
+
+  useEffect(()=>{
 	requestPets()
-},[])
+  },[])
 
-
-const requestPets = async () => {
+ const requestPets = async () => {
 	const res = await fetch(
 		`http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
 	);
@@ -27,10 +30,10 @@ const requestPets = async () => {
 	setPets(json.pets);
 };
 
-
-const onSubmit = (e)=>{
+const onSubmit =async (e)=>{
 	  e.preventDefault()
 	requestPets()
+
 }
 
   const onChange = (e)=>{
@@ -90,11 +93,7 @@ const onSubmit = (e)=>{
 				<button type='submit'>Submit</button>
 			</form>
 
-      {
-        pets.map(pet=>{
-          return <Pet name={pet.name} animal={pet.animal} breed={pet.breed} key={pet.id} />})
-      }
-
+				<Results pets={pets}/>
 
 		</div>
   );
